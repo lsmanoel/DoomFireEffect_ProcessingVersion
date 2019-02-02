@@ -3,6 +3,8 @@ http://fabiensanglard.net/doom_fire_psx/
 
 ![](https://raw.githubusercontent.com/lsmanoel/DoomFireEffect_ProcessingVersion/master/Screenshot%20from%202019-02-02%2001-59-32.png)
 ```Processing
+final int window_size_x = 640; final int window_size_y = 240; 
+
 public class Fire {
   int[][] pixel_map; 
   int fire_length; int fire_power; int fire_decay;
