@@ -34,7 +34,7 @@ public class Fire {
       for(int i=cy-radius; i<cy+radius; i++){
         for(int j=cx-radius; j<cx+radius; j++){
           if(((i-cy)*(i-cy)+(j-cx)*(j-cx))<(radius*radius))
-          pixel_map[j+fire_power][i+fire_power]=35;
+            pixel_map[j+fire_power][i+fire_power]=35;
         }
       } 
     }
