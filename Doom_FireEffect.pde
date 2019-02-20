@@ -1,7 +1,4 @@
-final int window_size_x = 740; final int window_size_y = 480; 
-int window_size = window_size_x*window_size_y;
-
-Fire fire_1 = new Fire(2, 2);
+Fire fire_1 = new Fire(2, 740, 480, 1);
 
 int mouse_pos=0;
 void setup() {
@@ -10,37 +7,46 @@ void setup() {
   frameRate(60);
   //fire_1.screen_update();
 
-  //fire_1.palette_color_show();
+  fire_1.palette_color_show();
 }
 
 void draw() {
+  int window_size_x = 740; int window_size_y = 480; 
   background(0);
   fire_1.floor_place_fire_source(5);
   fire_1.fire_update();
   fire_1.screen_update();
-  //fire_1.place_circle_fire_source(30, window_size_x/2, window_size_y/2);
+  fire_1.place_circle_fire_source(30, window_size_x/2, window_size_y/2);
   fire_1.place_circle_fire_source(int(random(5)+1), mouseX, mouseY);
   //println(mouseX, mouseY);
 }
 
 public class Fire {
+  int window_size_x; int window_size_y;
   int[][] pixel_map; 
   int fire_length; int fire_power; int fire_decay;
   int pixel_size=20;
   int[] R = {0x07, 0x1f, 0x2f, 0x47, 0x57, 0x67, 0x77, 0x8f, 0x9f, 0xaf, 0xb7, 0xc7, 0xdf, 0xdf, 0xdf, 0xd7, 0xd7, 0xc7, 0xcf, 0xcf, 0xcf, 0xc7, 0xc7, 0xc7, 0xbf, 0xbf, 0xbf, 0xbf, 0xbf, 0xb7, 0xb7, 0xb7, 0xcf, 0xdf, 0xef, 0xff};
   int[] G = {0x07, 0x07, 0x0f, 0x0f, 0x17, 0x17, 0x1f, 0x27, 0x2f, 0x3f, 0x47, 0x47, 0x4f, 0x57, 0x57, 0x5f, 0x67, 0x6f, 0x77, 0x7f, 0x87, 0x87, 0x8f, 0x97, 0x9f, 0x9f, 0xa7, 0xa7, 0xaf, 0xaf, 0xb7, 0xb7, 0xcf, 0xdf, 0xef, 0xff};
   int[] B = {0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x07, 0x0f, 0x0f, 0x0f, 0x0f, 0x17, 0x17, 0x17, 0x1f, 0x1f, 0x1f, 0x27, 0x27, 0x2f, 0x2f, 0x2f, 0x37, 0x6f, 0x9f, 0xc7, 0xff};
-    
+  int random_table_size = 5;
+  int[] random_table = {0, 0, 0, 1, 1};  
   public Fire() {}
-  public Fire(int fire_power_input) {
+  public Fire(int fire_power_input, int window_size_x_input, int window_size_y_input) {
+    window_size_x = window_size_x_input; 
+    window_size_y = window_size_y_input;
     fire_decay = fire_power_input; fire_power = fire_power_input;   
     pixel_map= new int[window_size_x+2*fire_power][window_size_y+2*fire_power];
   }
-  public Fire(int fire_power_input, int fire_decay_input) {
+  public Fire(int fire_power_input, int window_size_x_input, int window_size_y_input, int fire_decay_input) {
+    window_size_x = window_size_x_input; 
+    window_size_y = window_size_y_input;
     fire_decay = fire_decay_input; fire_power = fire_power_input;   
     pixel_map= new int[window_size_x+2*fire_power][window_size_y+2*fire_power];
   }
-  public Fire(int fire_power_input, int fire_decay_input,int fire_length_input) {
+  public Fire(int fire_power_input, int window_size_x_input, int window_size_y_input, int fire_decay_input,int fire_length_input) {
+    window_size_x = window_size_x_input; 
+    window_size_y = window_size_y_input;
     fire_decay = fire_decay_input; fire_power = fire_power_input; fire_length = fire_length_input;
     pixel_map= new int[window_size_x+2*fire_power][window_size_y];    
   }
@@ -75,10 +81,10 @@ public class Fire {
           pixel_map[j+fire_power-int(random(fire_power))+int(random(fire_power))][i+int(random(fire_power))]=pixel_map[j+fire_power][i]-int(random(fire_decay))-2;
         }
         if(pixel_map[j+fire_power][i]>4){
-          pixel_map[j+fire_power-int(random(fire_power))+int(random(fire_power))][i-int(random(fire_power))]=pixel_map[j+fire_power][i]-int(decay_random(fire_decay));
+          pixel_map[j+fire_power-int(random(fire_power))+int(random(fire_power))][i-int(random(fire_power))]=pixel_map[j+fire_power][i]-random_table[int(random(random_table_size))];
         }
         if(pixel_map[j+fire_power][i]>0){
-          pixel_map[j+fire_power][i]=pixel_map[j+fire_power][i]-int(random(fire_decay));     
+          pixel_map[j+fire_power][i]=pixel_map[j+fire_power][i]-random_table[int(random(random_table_size))];     
         }
       }
     }
